@@ -41,11 +41,11 @@ class JwtAuth {
   }
 
   public function checkToken($token, $getIdentity = false) {
-    $decoded = JWT::decode($token, new Key($this->key, 'HS256'));
-
-    return array(
-      'isValid' => is_object($decoded) || is_array($decoded),
-      'user' => $getIdentity ? $decoded : ''
-    );
+    try {
+      $decoded = JWT::decode($token, new Key($this->key, 'HS256'));
+      return $getIdentity ? $decoded : is_object($decoded) || is_array($decoded);
+    } catch (Exception $e) {
+      return false;
+    }
   }
 }

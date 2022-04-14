@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ApiAuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,15 +21,20 @@ Route::get('/', function () {
     'message' => 'CONGRATS! If you view this message the API REST is working.',
     'status' => 200
   );
-
   return response()->json($data, 200);
 });
 
 Route::prefix('/api/v1/')->group(function() {
-  // UserController
+  // User Controller
   Route::prefix('/user')->group(function() {
+    Route::get('/{id}', [UserController::class, 'profile']);
+
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
+    Route::post('/update', [UserController::class, 'update'])->middleware(ApiAuthMiddleware::class);
     Route::post('/checkToken', [UserController::class, 'checkToken']);
   });
+
+  // Categories Controller
+  Route::resource('/category', CategoryController::class);
 });
