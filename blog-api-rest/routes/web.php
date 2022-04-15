@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ApiAuthMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +38,9 @@ Route::prefix('/api/v1/')->group(function() {
 
   // Categories Controller
   Route::resource('/category', CategoryController::class);
+
+  // Post Controller
+  Route::resource('/post', PostController::class);
+  Route::get('/post/category/{id}', [PostController::class, 'getPostsByCategory']);
+  Route::get('/post/author/{id}', [PostController::class, 'getPostsByAuthor']);
 });

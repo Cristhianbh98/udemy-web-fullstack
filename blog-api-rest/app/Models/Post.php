@@ -9,6 +9,7 @@ class Post extends Model {
   use HasFactory;
 
   protected $table = 'posts';
+  protected $fillable = ['title', 'content', 'category_id'];
 
   public function user() {
     return $this->belongsTo('App\models\User', 'user_id');

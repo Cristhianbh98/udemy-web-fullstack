@@ -31,6 +31,7 @@ class ApiAuthMiddleware {
     }
 
     $request->token = $token;
+    $request->currentUser = $jwtAuth->checkToken($token, true);
 
     return $next($request);
   }
